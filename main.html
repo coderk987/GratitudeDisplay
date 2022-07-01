@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gratitude Wall</title>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Walter+Turncoat&display=swap');
+         *{
+            font-family: 'Walter Turncoat', cursive;
+            box-sizing: border-box;
+        }
+        body{
+            display:flex;
+            flex-direction: column;
+            align-items:center;
+            padding: 2em;
+            background-color: rgb(24, 24, 24);
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+        }
+        .title{
+            color: #9B77A7;
+            font-size:3rem;
+            font-weight: 700;
+            text-align: center;
+            margin: 0;
+        }
+        .top{
+            position: relative;
+            width: 640px;
+            margin: 7% auto;
+            padding: 0.5em;
+            border: tan solid 12px;
+            border-top: #bda27e solid 12px;
+            border-left: #b19876 solid 12px;
+            border-bottom: #c9ad86 solid 12px;
+            box-shadow: 0px 0px 6px 5px rgba(58, 18, 13, 0), 0px 0px 0px 2px #c2a782, 0px 0px 0px 4px #a58e6f, 3px 4px 8px 5px rgba(0, 0, 0, 0.5);
+            background-image: radial-gradient( circle at left 30%, rgba(34, 34, 34, 0.3), rgba(34, 34, 34, 0.3) 80px, rgba(34, 34, 34, 0.5) 100px, rgba(51, 51, 51, 0.5) 160px, rgba(51, 51, 51, 0.5)), linear-gradient( 215deg, transparent, transparent 100px, #222 260px, #222 320px, transparent), radial-gradient( circle at right, #111, rgba(51, 51, 51, 1));
+            background-color: #333;
+        }
+        .list{
+            padding: 0 1em;
+            position: relative;
+        }
+        .list>div>li{
+            color: rgb(236, 218, 241);
+            font-weight: 300;
+            font-size: 2rem;
+            margin: 0.2em;
+        }
+        svg{
+            color: rgb(236, 218, 241);
+            transform: scale(1.5);
+        }
+        .list>div{
+            align-items:center;
+        }
+        h3{
+            font-weight: 500;
+            color: rgb(244, 71, 105);
+            text-align: center;
+        }
+        .add{
+            color: #C25064;
+            padding: 0.2em;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        img{
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <h1 class="title">You Are Grateful For: </h1>
+        <div id="list" class="eee">
+            <div class="add">
+                Everyone Has Something to be Grateful For, Mention that special Article by: <br/> File > Add Text
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const electron=require("electron")
+        const {ipcRenderer}=electron;
+        const list=document.querySelector('#list');
+        ipcRenderer.on("input:add",(e,data)=>{
+            document.querySelector(".add").style.display="none";
+            list.className="list";
+            const h1=document.createElement("li");
+            const itemDiv=document.createElement("div");
+            itemDiv.style.display="flex";
+            itemDiv.style.justifyContent="space-between";
+            console.log(data)
+            h1.appendChild(document.createTextNode(data));
+            itemDiv.appendChild(h1);
+            itemDiv.insertAdjacentHTML(
+                'beforeend',
+                `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eraser-fill" viewBox="0 0 16 16" onclick="return this.parentNode.remove();">
+                    <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"/>
+                </svg>`
+            )
+            list.appendChild(itemDiv);
+        })
+    </script>
+</body>
+</html>
